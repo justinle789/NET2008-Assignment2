@@ -1,6 +1,4 @@
-# Write Your Code Here
-# NotebookApp.iopub_data_rate_limit=10000000.0
-# -----------------------------------------------
+#Written in Python
 
 class bookInfo:
     def __init__(self, Title, Author, UserRating, Reviews, Price, PublicationYear, Genre):
@@ -15,16 +13,14 @@ class bookInfo:
     def __repr__(self):
         return '{:<85}|{:<40}|{:<15}|{:<10}|{:<10}|{:<25}|{:<15}'.format(self.Title, self.Author, self.UserRating, self.Reviews, self.Price,
                                              self.PublicationYear, self.Genre)
+        # Properly stores elements.
+        # Formats and spaces element when printed.
 
 
 def headerFormat():
     print("\n")
     print('{:<85}|{:<40}|{:<15}|{:<10}|{:<10}|{:<25}|{:<15}'.format("Title", "Author", "User Rating", "Reviews", "Price", "Year of Publication", "Genre"))
     print("-"*205)
-
-# def checkIfSearchResultIsEmpty(nSearches):
-#     if nSearches == 0:
-#         print("Oops couldn't find search result.")
 
 
 def SearchByYear(sortedByDate):
@@ -35,9 +31,9 @@ def SearchByYear(sortedByDate):
     for el in sortedByDate:
         if (el.PublicationYear >= yearBegin) and (el.PublicationYear <= yearEnd):
             nSearchResults +=1
-            if nSearchResults == 1:
-                headerFormat()
-            print(el)
+            if nSearchResults == 1:        # To prevent the header from being printed every time a search result is found.
+                headerFormat()             # The header is printed first assuming there's a sucessful search.
+            print(el)                      # After, only searches results will be printed. Format reasons.
     print("\n")
     if nSearchResults == 0:
         print("Oops couldn't find search result.\n")
@@ -51,8 +47,8 @@ def SearchByRating(bookList):
     for el in bookList:
         if el.UserRating == searchRating:
             nSearchResults += 1
-            if nSearchResults == 1:        # if a single search result is found, header format will be executed one time
-                headerFormat()             #
+            if nSearchResults == 1:        # To prevent the header from being printed every time a search result is found.
+                headerFormat()             # The header is printed first assuming there's a sucessful search.
             print(el)                      # After, only searches results will be printed. Format reasons.
     print("\n")
     if nSearchResults == 0:
@@ -67,8 +63,8 @@ def SearchByAuthor(booklList):
     for el in booklList:
         if (el.Author.__contains__(authorName) == True) or (el.Author.__contains__(authorNameCap) == True):
             nSearchResults += 1
-            if nSearchResults == 1:        # if a single search result is found, header format will be executed one time
-                headerFormat()             #
+            if nSearchResults == 1:        # To prevent the header from being printed every time a search result is found.
+                headerFormat()             # The header is printed first assuming there's a sucessful search.
             print(el)                      # After, only searches results will be printed. Format reasons.
     print("\n")
     if nSearchResults == 0:
@@ -79,13 +75,12 @@ def SearchByTitle(bookList):
     TitleName = str(input("Enter the author name: "))
     TitleNameCap = TitleName.capitalize()
 
-    headerFormat()
     nSearchResults = 0
     for el in bookList:
         if (el.Title.__contains__(TitleName) == True) or (el.Title.__contains__(TitleNameCap) == True):
             nSearchResults += 1
-            if nSearchResults == 1:        # if a single search result is found, header format will be executed one time
-                headerFormat()             #
+            if nSearchResults == 1:        # To prevent the header from being printed every time a search result is found.
+                headerFormat()             # The header is printed first assuming there's a sucessful search.
             print(el)                      # After, only searches results will be printed. Format reasons.
     print("\n")
     if nSearchResults == 0:
@@ -97,19 +92,16 @@ def SearchByTitle(bookList):
 
 listOfBooks = []
 
-myfile = open('booklist.txt', 'r', encoding="utf8")
-myfile.seek(0)
+myfile = open('booklist.txt', 'r', encoding="utf8")   # open file
+myfile.seek(0)                                        # start at the beginning of the file
 
 for line in myfile:
-
-    lineStr = line
-
-    title, author, userRating, reviews, price, publicationYear, genre = lineStr.split(",")
+    title, author, userRating, reviews, price, publicationYear, genre = line.split(",")                                      # obtains each element seperated by a comma in booklist.txt.
     if len(title) > 75:                    # if the length of a title is more than 75 characters, stop it at that.
-        title = title[:75] + "..."         # then add "..."
-    listOfBooks.append(bookInfo(title, author, float(userRating), reviews, price, int(publicationYear), genre.strip("\n")))
+        title = title[:75] + "..."         # then append "..." to the end of the cut-off title.
+    listOfBooks.append(bookInfo(title, author, float(userRating), reviews, price, int(publicationYear), genre.strip("\n")))  # creates class objects with said elements. Appends this class object to listOfBooks so it can be stored.
 
-sorted_by_date = sorted(listOfBooks,key=lambda bookInfo:bookInfo.PublicationYear)  # Purpose: to make it look neat
+sorted_by_date = sorted(listOfBooks,key=lambda bookInfo:bookInfo.PublicationYear)                                            # Sort list by date to make it look neat and more readable to the user.
 
 #-----------------------------------------------------------------------------
 
@@ -125,10 +117,10 @@ while (userInput == None) or (userInput != 'Q'):
     print("4 Search for title")
     print("Q Quit\n")
 
-    userInput = input("Select option #: ")
-    try:
-        userChoice = int(userInput)        # if it can't be converted to int,
-    except:                                #                        it will be converted to str in the expect statement.
+    userInput = input("Select option #: ") # Takes userInput with no data type specified.
+    try:                                   # Try & except statement obtains the correct data type for userInput.
+        userChoice = int(userInput)        # Transforms input into an int. If it can't be converted to int, ...
+    except:                                # ... it will be converted to str in the expect statement.
         userChoice = str(userInput)
 
     if userChoice == 1:
